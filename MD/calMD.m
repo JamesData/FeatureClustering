@@ -19,6 +19,7 @@ for k = 1 : MNumber
     % 操作相对位置
     for i = 1 : PNumber
         [row,col] = find(Jm==k);
+%         if numel(row)==0,break;end;
         pNum = row(i);                 % 工件号
         Ind(pNum,k) = col(i);
         pos(pNum,k) = col(i) ./ Len;

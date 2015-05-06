@@ -73,7 +73,7 @@ path(p);
 
 % Find the data points with highest grade of membership in each cluster
 maxU = max(U);
-Cluster = cell(centerNum);
+Cluster = cell(centerNum,1);
 for i = 1 : centerNum
     indTmp = find(U(i,:) == maxU);
     Cluster(i) = {indTmp};

@@ -1,17 +1,18 @@
-%% Machine Capability clustering algorithm
+%% 
 % 
 %%
 clear all; clc
 tic;                              % Start stopwatch timer
 p = path;
-path(p, genpath(pwd));            % add the current folder to the search path
+path(p, genpath(pwd));
 
 % % 生成实例
-% P_n = 100;
-% M_n = 50;
-% [T,Jm,M] = GenInstance(P_n,M_n,1);   
+% P_n = 20;
+% M_n = 10;
+% Instance_n = 100;
+% [T,Jm,M] = GenInstance(P_n,M_n,Instance_n);   
 
-% % 样本实例1 10*10
+% % 一个实例 10*10
 % T=[29 78  9 36 49 11 62 56 44 21;
 %    43 90 75 11 69 28 46 46 72 30;
 %    91 85 39 74 90 10 12 89 45 33;
@@ -36,23 +37,30 @@ path(p, genpath(pwd));            % add the current folder to the search path
 % 
 % Jm=Jm+1;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 机器加工能力聚类
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-load('T.mat', 'T');
-load('M.mat', 'M');
-centerNum = 3;
-[center,U,obj_fcn] = fcm(M,centerNum);
+% load Test data
+load('T20_10_5.mat','T');
+load('Jm20_10_5.mat','Jm');
+load('M20_10_5.mat','M');
+[P_n,M_n,Instance_n] = size(T);
 
-% Find the data points with highest grade of membership in each cluster
-maxU = max(U);
-Cluster = cell(centerNum,1);
-for i = 1 : centerNum
-    indTmp = find(U(i,:) == maxU);
-    Cluster(i) = {indTmp};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+col = M_n;
+raw = P_n * Instance_n;
+ComT = zeros(raw,col);
+ComJm = zeros(raw,col);
+ComM = zeros(Instance_n,1);
+for i = 1 : Instance_n
+    ComT((i-1)*P_n+1 : i*P_n,:) = T(:,:,i);
+    ComJm((i-1)*P_n+1 : i*P_n,:) = Jm(:,:,i);
+    ComM(i) = sum(M(:,:,i));
 end
 
+centerNum = 3;
+% PM = MakespanClustering(ComT,Instance_n,centerNum);
+PP = MDClustering(ComT,ComJm,Instance_n,centerNum);
+% PD = SlackClustering(ComT,Instance_n,centerNum);
+% PC = MCClustering(ComM,Instance_n,centerNum);
 
-path(p)                           % restore the previous search path   
 
+path(p);
 toc                               % Read elapsed time from stopwatch                              

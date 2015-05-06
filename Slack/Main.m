@@ -1,4 +1,4 @@
-%% MD clustering algorithm
+%% Slack clustering algorithm
 % 
 %%
 clear all; clc
