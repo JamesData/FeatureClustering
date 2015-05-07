@@ -1,7 +1,7 @@
 # Feature clustering of JSSP
-### Algorithm:
+## Algorithm:
 ### Fuzzy c-means algorithm
-### including:
+## Feature included:
 ### MD distance
 ### Machine Capability
 ### Makespan 
